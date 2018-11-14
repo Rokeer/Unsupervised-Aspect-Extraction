@@ -40,11 +40,10 @@ One example of trained model for the restaurant domain has been put in pre_train
 
 ## Dependencies
 
-python 2
+python 3
 
-* keras 1.2.1
-* theano 0.9.0
-* numpy 1.13.3
+* keras 2.2.4
+* tensorflow 1.12.0
 
 See also requirements.txt
 You can install prerequirements, using the following command.
