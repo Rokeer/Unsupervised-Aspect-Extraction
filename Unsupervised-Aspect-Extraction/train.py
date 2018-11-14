@@ -32,7 +32,7 @@ parser.add_argument("-o", "--out-dir", dest="out_dir_path", type=str, metavar='<
 parser.add_argument("-e", "--embdim", dest="emb_dim", type=int, metavar='<int>', default=200, help="Embeddings dimension (default=200)")
 parser.add_argument("-b", "--batch-size", dest="batch_size", type=int, metavar='<int>', default=50, help="Batch size (default=50)")
 parser.add_argument("-v", "--vocab-size", dest="vocab_size", type=int, metavar='<int>', default=9000, help="Vocab size. '0' means no limit (default=9000)")
-parser.add_argument("-as", "--aspect-size", dest="aspect_size", type=int, metavar='<int>', default=14, help="The number of aspects specified by users (default=14)")
+parser.add_argument("-as", "--aspect-size", dest="aspect_size", type=int, metavar='<int>', default=8, help="The number of aspects specified by users (default=14)")
 parser.add_argument("--emb", dest="emb_path", type=str, metavar='<str>', default="datasets/preprocessed_data/mvp/w2v_embedding", help="The path to the word embeddings file")
 parser.add_argument("--epochs", dest="epochs", type=int, metavar='<int>', default=100, help="Number of epochs (default=15)")
 parser.add_argument("-n", "--neg-size", dest="neg_size", type=int, metavar='<int>', default=20, help="Number of negative instances (default=20)")
