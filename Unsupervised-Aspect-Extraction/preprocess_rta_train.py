@@ -18,9 +18,11 @@ def preprocess_train(domain):
     out = codecs.open('datasets/preprocessed_data/'+domain+'/train.txt', 'w', 'utf-8')
 
     for line in f:
-        print(line)
+        # print(line)
         tokens = parseSentence(line)
-        print(' '.join(tokens))
+        if 'toan_020009049' in tokens:
+            print('toan_020009049')
+        # print(' '.join(tokens))
         if len(tokens) > 0:
             out.write(' '.join(tokens)+'\n')
 
