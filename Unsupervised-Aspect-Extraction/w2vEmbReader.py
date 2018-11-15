@@ -21,10 +21,10 @@ class W2VEmbReader:
         model = gensim.models.Word2Vec.load(emb_path)
         self.emb_dim = emb_dim
         for word in model.wv.vocab:
-            self.embeddings[word] = list(model[word])
-            emb_matrix.append(list(model[word]))
+            self.embeddings[word] = list(model.wv[word])
+            emb_matrix.append(list(model.wv[word]))
 
-        if emb_dim != None:
+        if emb_dim is not None:
             assert self.emb_dim == len(self.embeddings['nice'])
             
         self.vector_size = len(self.embeddings)

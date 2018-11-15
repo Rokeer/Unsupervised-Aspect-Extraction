@@ -154,8 +154,8 @@ for ii in range(args.epochs):
 
     if loss < min_loss:
         min_loss = loss
-        word_emb = model.get_layer('word_emb').get_weights()[0]
-        aspect_emb = model.get_layer('aspect_emb').get_weights()[0]
+        word_emb = K.get_value(model.get_layer('word_emb').embeddings)
+        aspect_emb = K.get_value(model.get_layer('aspect_emb').W)
         word_emb = word_emb / np.linalg.norm(word_emb, axis=-1, keepdims=True)
         aspect_emb = aspect_emb / np.linalg.norm(aspect_emb, axis=-1, keepdims=True)
         aspect_file = codecs.open(out_dir+'/aspect_' + str(args.aspect_size) + '.log', 'w', 'utf-8')
@@ -165,7 +165,7 @@ for ii in range(args.epochs):
             desc = aspect_emb[ind]
             sims = word_emb.dot(desc.T)
             ordered_words = np.argsort(sims)[::-1]
-            desc_list = [vocab_inv[w] for w in ordered_words[:100]]
+            desc_list = [vocab_inv[w] + ":" + str(sims[w]) for w in ordered_words[:100]]
             print('Aspect %d:' % ind)
             print(desc_list)
             aspect_file.write('Aspect %d:\n' % ind)

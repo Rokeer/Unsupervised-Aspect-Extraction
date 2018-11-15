@@ -15,7 +15,7 @@ class Attention(Layer):
         Supports Masking.
         """
         self.supports_masking = True
-        self.init = initializers.glorot_uniform()
+        self.init = initializers.get('glorot_uniform')
 
         self.W_regularizer = regularizers.get(W_regularizer)
         self.b_regularizer = regularizers.get(b_regularizer)
@@ -105,7 +105,7 @@ class WeightedAspectEmb(Layer):
                  weights=None, dropout=0., **kwargs):
         self.input_dim = input_dim
         self.output_dim = output_dim
-        self.init = initializers.RandomUniform()
+        self.init = initializers.get(init)
         self.input_length = input_length
         self.dropout = dropout
 
@@ -169,14 +169,15 @@ class MaxMargin(Layer):
         z_n = input_tensor[1]
         r_s = input_tensor[2]
 
-        z_s = z_s / K.cast(K.epsilon() + K.sqrt(K.sum(K.square(z_s), axis=-1, keepdims=True)), K.floatx())
-        z_n = z_n / K.cast(K.epsilon() + K.sqrt(K.sum(K.square(z_n), axis=-1, keepdims=True)), K.floatx())
-        r_s = r_s / K.cast(K.epsilon() + K.sqrt(K.sum(K.square(r_s), axis=-1, keepdims=True)), K.floatx())
+        z_s = K.l2_normalize(z_s, axis=-1)
+        z_n = K.l2_normalize(z_n, axis=-1)
+        r_s = K.l2_normalize(r_s, axis=-1)
 
-        steps = z_n.shape[1]
+        steps = z_n.shape[1].value
+
 
         pos = K.sum(z_s*r_s, axis=-1, keepdims=True)
-        pos = K.repeat_elements(pos, steps, axis=-1)
+        pos = K.repeat_elements(pos, steps, axis=1)
         #colin "dim" to "axis"
         r_s = K.expand_dims(r_s, axis=-2)
         r_s = K.repeat_elements(r_s, steps, axis=1)
@@ -191,7 +192,3 @@ class MaxMargin(Layer):
     def compute_output_shape(self, input_shape):
         return (input_shape[0][0], 1)
 
-
-
-
-        

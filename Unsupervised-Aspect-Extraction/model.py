@@ -52,9 +52,13 @@ def create_model(args, maxlen, vocab):
         emb_reader = EmbReader(args.emb_path, emb_dim=args.emb_dim)
         logger.info('Initializing word embedding matrix')
         # model.get_layer('word_emb').set_weights(emb_reader.get_emb_matrix_given_vocab(vocab, model.get_layer('word_emb').get_weights()[0]))
-        model.get_layer('word_emb').set_weights([emb_reader.get_emb_matrix_given_vocab(vocab, model.get_layer('word_emb').get_weights()[0])])
+        K.set_value(
+            model.get_layer('word_emb').embeddings,
+            emb_reader.get_emb_matrix_given_vocab(vocab, K.get_value(model.get_layer('word_emb').embeddings)))
         logger.info('Initializing aspect embedding matrix as centroid of kmean clusters')
-        model.get_layer('aspect_emb').set_weights([emb_reader.get_aspect_matrix(args.aspect_size)])
+        K.set_value(
+            model.get_layer('aspect_emb').W,
+            emb_reader.get_aspect_matrix(args.aspect_size))
     return model
 
 
