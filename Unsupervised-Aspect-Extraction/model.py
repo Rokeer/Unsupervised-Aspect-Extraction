@@ -1,6 +1,6 @@
 import logging
 import keras.backend as K
-from keras.layers import Dense, Activation, Embedding, Input
+from keras.layers import Dense, Activation, Embedding, Input, LSTM
 from keras.models import Model
 from my_layers import Attention, Average, WeightedSum, WeightedAspectEmb, MaxMargin
 
@@ -28,13 +28,15 @@ def create_model(args, maxlen, vocab):
 
     ##### Compute sentence representation #####
     e_w = word_emb(sentence_input)
-    y_s = Average()(e_w)
+    lstm_e_w = LSTM(args.emb_dim, return_sequences=True) (e_w)
+    y_s = Average()(lstm_e_w)
     att_weights = Attention(name='att_weights')([e_w, y_s])
     z_s = WeightedSum()([e_w, att_weights])
 
     ##### Compute representations of negative instances #####
     e_neg = word_emb(neg_input)
-    z_n = Average()(e_neg)
+    lstm_e_neg = LSTM(args.emb_dim, return_sequences=True)(e_neg)
+    z_n = Average()(lstm_e_neg)
 
     ##### Reconstruction #####
     p_t = Dense(args.aspect_size)(z_s)
