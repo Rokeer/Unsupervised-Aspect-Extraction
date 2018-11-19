@@ -133,10 +133,10 @@ for c in range(len(test_x)):
 ## cluster_map need to be specified manually according to the top words in each inferred aspect (save in aspect.log)
 
 # map for the pre-trained restaurant model (under pre_trained_model/restaurant)
-cluster_map = {0: 'Food', 1: 'Food', 2: 'Ambience', 3: 'Price',
-           4: 'Miscellaneous', 5: 'Food', 6:'Anecdotes',  7: 'Anecdotes', 8: 'Miscellaneous',
-           9: 'Miscellaneous', 10: 'Staff', 11: 'Ambience',
-           12: 'Food', 13: 'Miscellaneous'}
+cluster_map = {0: 'Miscellaneous', 1: 'Miscellaneous', 2: 'Anecdotes', 3: 'Ambience',
+           4: 'Miscellaneous', 5: 'Food', 6:'Miscellaneous',  7: 'Price', 8: 'Miscellaneous',
+           9: 'Staff', 10: 'Food', 11: 'Anecdotes',
+           12: 'Ambience', 13: 'Food'}
 # Food, Miscellaneous, Price, Staff, Anecdotes, Ambience
 
 print ('--- Results on %s domain ---' % (args.domain))
