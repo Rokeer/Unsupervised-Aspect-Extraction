@@ -158,8 +158,8 @@ for ii in range(args.epochs):
         aspect_emb = K.get_value(model.get_layer('aspect_emb').W)
         word_emb = word_emb / np.linalg.norm(word_emb, axis=-1, keepdims=True)
         aspect_emb = aspect_emb / np.linalg.norm(aspect_emb, axis=-1, keepdims=True)
-        aspect_file = codecs.open(out_dir+'/aspect_' + str(args.aspect_size) + '.log', 'w', 'utf-8')
-        model.save_weights(out_dir+'/model_param_' + str(args.aspect_size))
+        aspect_file = codecs.open(out_dir+'/lstm_aspect_' + str(args.aspect_size) + '.log', 'w', 'utf-8')
+        model.save_weights(out_dir+'/lstm_model_param_' + str(args.aspect_size))
 
         for ind in range(len(aspect_emb)):
             desc = aspect_emb[ind]
