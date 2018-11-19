@@ -2,3 +2,6 @@
 .DS_Store
 Unsupervised-Aspect-Extraction/.idea/
 Unsupervised-Aspect-Extraction/__pycache__/
+Unsupervised-Aspect-Extraction/datasets/preprocessed_data/beer/
+Unsupervised-Aspect-Extraction/datasets/preprocessed_data/restaurant/
+Unsupervised-Aspect-Extraction/output/*

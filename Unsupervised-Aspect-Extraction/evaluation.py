@@ -9,7 +9,7 @@ import codecs
 ######### Get hyper-params in order to rebuild the model architecture ###########
 # The hyper parameters should be exactly the same as those used for training
 parser = argparse.ArgumentParser()
-parser.add_argument("-o", "--out-dir", dest="out_dir_path", type=str, metavar='<str>', required=True, help="The path to the output directory")
+parser.add_argument("-o", "--out-dir", dest="out_dir_path", type=str, metavar='<str>', default="output", help="The path to the output directory")
 parser.add_argument("-e", "--embdim", dest="emb_dim", type=int, metavar='<int>', default=200, help="Embeddings dimension (default=200)")
 parser.add_argument("-b", "--batch-size", dest="batch_size", type=int, metavar='<int>', default=50, help="Batch size (default=50)")
 parser.add_argument("-v", "--vocab-size", dest="vocab_size", type=int, metavar='<int>', default=9000, help="Vocab size. '0' means no limit (default=9000)")
@@ -51,7 +51,7 @@ def max_margin_loss(y_true, y_pred):
 model = create_model(args, overall_maxlen, vocab)
 
 ## Load the save model parameters
-model.load_weights(out_dir+'/model_param')
+model.load_weights(out_dir+'/model_param_' + str(args.aspect_size))
 model.compile(optimizer=optimizer, loss=max_margin_loss, metrics=[max_margin_loss])
 
 
@@ -108,7 +108,7 @@ att_weights, aspect_probs = test_fn([test_x, 0])
 
 
 ## Save attention weights on test sentences into a file 
-att_out = codecs.open(out_dir + '/att_weights', 'w', 'utf-8')
+att_out = codecs.open(out_dir + '/att_weights_' + str(args.aspect_size), 'w', 'utf-8')
 print ('Saving attention weights on test sentences...')
 for c in range(len(test_x)):
     att_out.write('----------------------------------------\n')
@@ -133,14 +133,14 @@ for c in range(len(test_x)):
 ## cluster_map need to be specified manually according to the top words in each inferred aspect (save in aspect.log)
 
 # map for the pre-trained restaurant model (under pre_trained_model/restaurant)
-# cluster_map = {0: 'Food', 1: 'Miscellaneous', 2: 'Miscellaneous', 3: 'Food',
-#            4: 'Miscellaneous', 5: 'Food', 6:'Price',  7: 'Miscellaneous', 8: 'Staff', 
-#            9: 'Food', 10: 'Food', 11: 'Anecdotes', 
-#            12: 'Ambience', 13: 'Staff'}
+cluster_map = {0: 'Food', 1: 'Miscellaneous', 2: 'Miscellaneous', 3: 'Food',
+           4: 'Miscellaneous', 5: 'Food', 6:'Price',  7: 'Miscellaneous', 8: 'Staff',
+           9: 'Food', 10: 'Food', 11: 'Anecdotes',
+           12: 'Ambience', 13: 'Staff'}
 
 
-# print '--- Results on %s domain ---' % (args.domain)
-# test_labels = '../preprocessed_data/%s/test_label.txt' % (args.domain)
-# prediction(test_labels, aspect_probs, cluster_map, domain=args.domain)
+print ('--- Results on %s domain ---' % (args.domain))
+test_labels = 'datasets/preprocessed_data/%s/test_label.txt' % (args.domain)
+prediction(test_labels, aspect_probs, cluster_map, domain=args.domain)
 
 
