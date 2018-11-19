@@ -108,7 +108,7 @@ att_weights, aspect_probs = test_fn([test_x, 0])
 
 
 ## Save attention weights on test sentences into a file 
-att_out = codecs.open(out_dir + '/att_weights_' + str(args.aspect_size), 'w', 'utf-8')
+att_out = codecs.open(out_dir + '/lstm_att_weights_' + str(args.aspect_size), 'w', 'utf-8')
 print ('Saving attention weights on test sentences...')
 for c in range(len(test_x)):
     att_out.write('----------------------------------------\n')
