@@ -40,7 +40,7 @@ test_x = sequence.pad_sequences(test_x, maxlen=overall_maxlen)
 
 
 ############# Build model architecture, same as the model used for training #########
-from model import create_model
+from model import create_model, create_lstm_model
 import keras.backend as K
 from optimizers import get_optimizer
 
@@ -48,7 +48,7 @@ optimizer = get_optimizer(args)
 
 def max_margin_loss(y_true, y_pred):
     return K.mean(y_pred)
-model = create_model(args, overall_maxlen, vocab)
+model = create_lstm_model(args, overall_maxlen, vocab)
 
 ## Load the save model parameters
 model.load_weights(out_dir+'/lstm_model_param_' + str(args.aspect_size))
