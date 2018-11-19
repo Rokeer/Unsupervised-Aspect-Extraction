@@ -1,6 +1,6 @@
 import logging
 import keras.backend as K
-from keras.layers import Dense, Activation, Embedding, Input, LSTM
+from keras.layers import Dense, Activation, Embedding, Input, LSTM, TimeDistributed
 from keras.models import Model
 from my_layers import Attention, Average, WeightedSum, WeightedAspectEmb, MaxMargin
 
@@ -35,7 +35,7 @@ def create_model(args, maxlen, vocab):
 
     ##### Compute representations of negative instances #####
     e_neg = word_emb(neg_input)
-    z_n = LSTM(args.emb_dim, return_sequences=False)(e_neg)
+    z_n = TimeDistributed(LSTM(args.emb_dim, return_sequences=False))(e_neg)
     #z_n = Average()(e_neg)
 
     ##### Reconstruction #####
