@@ -28,15 +28,15 @@ def create_model(args, maxlen, vocab):
 
     ##### Compute sentence representation #####
     e_w = word_emb(sentence_input)
-    lstm_e_w = LSTM(args.emb_dim, return_sequences=True) (e_w)
-    y_s = Average()(lstm_e_w)
+    y_s = LSTM(args.emb_dim, return_sequences=False)(e_w)
+    #y_s = Average()(e_w)
     att_weights = Attention(name='att_weights')([e_w, y_s])
     z_s = WeightedSum()([e_w, att_weights])
 
     ##### Compute representations of negative instances #####
     e_neg = word_emb(neg_input)
-    lstm_e_neg = LSTM(args.emb_dim, return_sequences=True)(e_neg)
-    z_n = Average()(lstm_e_neg)
+    z_n = LSTM(args.emb_dim, return_sequences=False)(e_neg)
+    #z_n = Average()(e_neg)
 
     ##### Reconstruction #####
     p_t = Dense(args.aspect_size)(z_s)
