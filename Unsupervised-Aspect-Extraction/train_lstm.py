@@ -118,6 +118,33 @@ model = create_lstm_model(args, overall_maxlen, vocab)
 model.get_layer('word_emb').trainable=False
 model.summary()
 model.compile(optimizer=optimizer, loss=max_margin_loss, metrics=[max_margin_loss])
+if False:
+    model.load_weights(out_dir + '/steps_lstm_model_param_0_' + str(args.aspect_size))
+    vector_output = K.function([model.get_layer("sentence_input").input, model.get_layer("neg_input").input],
+                               [model.get_layer("max_margin").input[0], model.get_layer("max_margin").input[1],
+                                model.get_layer("max_margin").input[2],
+                                K.l2_normalize(model.get_layer("max_margin").input[0], axis=-1),
+                                K.l2_normalize(model.get_layer("max_margin").input[1], axis=-1),
+                                K.l2_normalize(model.get_layer("max_margin").input[2], axis=-1),
+                                ])
+    sen_gen = sentence_batch_generator(train_x, args.batch_size)
+    neg_gen = negative_batch_generator(train_x, args.batch_size, args.neg_size)
+
+    outputs = vector_output([next(sen_gen), next(neg_gen)])
+    z_s = outputs[3]
+    z_n = outputs[4]
+    r_s = outputs[5]
+
+    steps = 20
+
+    pos = np.sum(z_s * r_s, axis=-1, keepdims=True)
+    pos = np.repeat(pos, steps, axis=1)
+    # colin "dim" to "axis"
+    r_s = np.expand_dims(r_s, axis=-2)
+    r_s = np.repeat(r_s, steps, axis=1)
+    neg = np.sum(z_n * r_s, axis=-1)
+    loss = np.sum(np.maximum(0., (1. - pos + neg)), axis=-1, keepdims=True)
+    exit()
 
 
 ###############################################################################################################################
