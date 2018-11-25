@@ -115,7 +115,7 @@ def max_margin_loss(y_true, y_pred):
 
 model = create_lstm_model(args, overall_maxlen, vocab)
 # freeze the word embedding layer
-model.get_layer('word_emb').trainable=False
+# model.get_layer('word_emb').trainable=False
 model.summary()
 model.compile(optimizer=optimizer, loss=max_margin_loss, metrics=[max_margin_loss])
 
