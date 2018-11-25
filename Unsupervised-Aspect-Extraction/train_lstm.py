@@ -152,6 +152,13 @@ for ii in range(args.epochs):
 
     tr_time = time() - t0
 
+
+    input_tensor = K.get_value(model.get_layer('max_margin').input)
+    z_s = input_tensor[0]
+    z_n = input_tensor[1]
+    r_s = input_tensor[2]
+    model.save_weights(out_dir + '/lstm_model_param_' + str(ii) + '_' + str(args.aspect_size))
+
     if loss < min_loss:
         min_loss = loss
         word_emb = K.get_value(model.get_layer('word_emb').embeddings)
