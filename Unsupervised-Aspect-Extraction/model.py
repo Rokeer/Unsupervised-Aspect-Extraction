@@ -90,16 +90,17 @@ def create_lstm_model(args, maxlen, vocab):
 
     ##### Compute sentence representation #####
     e_w = word_emb(sentence_input)
-    lstm_e_w = LSTM(args.emb_dim, return_sequences=True)(e_w)
+    y_s = LSTM(args.emb_dim, return_sequences=False)(e_w)
     #y_s = Average()(lstm_e_w)
-    y_s = Lambda(slice1)(lstm_e_w)
-    att_weights = Attention(name='att_weights')([lstm_e_w, y_s])
-    z_s = WeightedSum()([lstm_e_w, att_weights])
+    #y_s = Lambda(slice1)(lstm_e_w)
+    att_weights = Attention(name='att_weights')([e_w, y_s])
+    z_s = WeightedSum()([e_w, att_weights])
 
     ##### Compute representations of negative instances #####
     e_neg = word_emb(neg_input)
-    z_n = TimeDistributed(LSTM(args.emb_dim, return_sequences=False))(e_neg)
-    #z_n = Average()(e_neg)
+    # lstm_z_n = TimeDistributed(LSTM(args.emb_dim, return_sequences=True))(e_neg)
+    # z_n = Average()(lstm_z_n)
+    z_n = Average()(e_neg)
     #z_n = Lambda(slice2)(lstm_e_neg)
     ##### Reconstruction #####
     p_t = Dense(args.aspect_size)(z_s)
