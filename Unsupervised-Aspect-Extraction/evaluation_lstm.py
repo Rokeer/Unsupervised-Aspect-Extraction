@@ -134,7 +134,7 @@ for c in range(len(test_x)):
 
 # map for the pre-trained restaurant model (under pre_trained_model/restaurant)
 cluster_map = {0: 'Miscellaneous', 1: 'Miscellaneous', 2: 'Anecdotes', 3: 'Ambience',
-           4: 'Miscellaneous', 5: 'Food', 6:'Miscellaneous',  7: 'Price', 8: 'Miscellaneous',
+           4: 'Miscellaneous', 5: 'Food', 6:'Food',  7: 'Price', 8: 'Miscellaneous',
            9: 'Staff', 10: 'Food', 11: 'Anecdotes',
            12: 'Ambience', 13: 'Food'}
 # Food, Miscellaneous, Price, Staff, Anecdotes, Ambience
