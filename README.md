@@ -42,8 +42,7 @@ One example of trained model for the restaurant domain has been put in pre_train
 
 python 3
 
-* keras 2.2.4
-* tensorflow 1.12.0
+* tensorflow 2.0.0
 
 See also requirements.txt
 You can install prerequirements, using the following command.
